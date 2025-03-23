@@ -30,7 +30,7 @@ const Signup = async (req, res) => {
 
     await user.save();
 
-    const verificationUrl = `http://localhost:8000/api/teacher/verify-email?token=${verificationToken}`;
+    const verificationUrl = `${process.env.BASE_URL}/api/teacher/verify-email?token=${verificationToken}`;
     const msg = {
       to: email,
       from: 'abhaydixit.dev@gmail.com',
@@ -82,7 +82,7 @@ const RegisterFace = async (req, res) => {
     await Teacher.findByIdAndUpdate(userId, { faceDescriptor, verificationToken });
 
     // Send verification email
-    const verificationLink = `http://localhost:8000/api/teacher/verify-email?token=${verificationToken}&id=${teacher._id}`;
+    const verificationLink = `${process.env.BASE_URL}/api/teacher/verify-email?token=${verificationToken}&id=${teacher._id}`;
     const msg = {
       to: teacher.email,
       from: 'abhaydixit.dev@gmail.com', // Replace with your verified SendGrid sender email
@@ -174,7 +174,7 @@ const ResendVerification = async (req, res) => {
     const verificationToken = crypto.randomBytes(32).toString('hex');
     await Teacher.findByIdAndUpdate(teacher._id, { verificationToken });
 
-    const verificationLink = `http://localhost:8000/api/teacher/verify-email?token=${verificationToken}&id=${teacher._id}`;
+    const verificationLink = `${process.env.BASE_URL}/api/teacher/verify-email?token=${verificationToken}&id=${teacher._id}`;
     const msg = {
       to: email,
       from: 'abhaydixit.dev@gmail.com', // Replace with your verified SendGrid sender email
